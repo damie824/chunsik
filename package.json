@@ -1,0 +1,24 @@
+{
+  "name": "chunsik",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/builders": "^1.7.0",
+    "@discordjs/rest": "^2.2.0",
+    "@types/node": "^20.12.7",
+    "discord-api-types": "^0.37.82",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.20.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
