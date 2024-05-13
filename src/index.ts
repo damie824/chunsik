@@ -6,8 +6,8 @@ import {
   GatewayIntentBits,
   GuildMember,
 } from "discord.js";
-import { registerCommands } from "./deploy-commands";
-import chunsik from "./commands/chunsik";
+import registerCommands from "./handler/slash";
+import { chunsik } from "./utils/chunsik";
 
 const client = new Client({
   intents: [
@@ -17,11 +17,7 @@ const client = new Client({
   ],
 });
 
-registerCommands(
-  `${process.env.DISCORD_TOKEN}`,
-  `${process.env.DISCORD_CLIENT_ID}`,
-  `${process.env.DISCORD_GUILD_ID}`
-);
+registerCommands(client);
 
 client.on("ready", () => {
   setInterval(() => {
@@ -40,22 +36,7 @@ client.on("ready", () => {
       activities: [status[Math.floor(Math.random() * status.length)]],
     });
   }, 10000);
-  console.log(`춘식이가 노동을 시작함.`);
-});
-
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
-  if (interaction.commandName === "춘식이여") {
-    const user = interaction.options.getUser("user", true);
-    const newNickname = await chunsik(
-      user,
-      interaction.channel,
-      interaction.guild
-    );
-    interaction.reply(
-      `${user.displayName}의 이름은 오늘부터 ${newNickname}이여`
-    );
-  }
+  console.log(`[Client] | 춘식이가 노동을 시작함.`);
 });
 
 client.on("guildMemberAdd", async (member) => {
@@ -63,13 +44,13 @@ client.on("guildMemberAdd", async (member) => {
   member.roles.add("1233285147575717918", "노예 추가");
   const newNickname = await chunsik(member, defaultChannel, member.guild);
   defaultChannel?.send(
-    `새 노예인 ${member.displayName}의 이름은 오늘부터 ${newNickname}이여.`
+    `새 노예인 ${member.user.globalName}의 이름은 오늘부터 ${newNickname}이여.`
   );
   await member.send(
     "https://cdn.topstarnews.net/news/photo/202205/14695569_799939_590.jpg"
   );
   await member.send("들어올 떈 자유지만, 나갈 땐 아니란다");
-  console.log(`${member.displayName}에게 디엠을 보냈슈`);
+  console.log(`[Event] | ${member.displayName}에게 디엠을 보냈슈`);
 });
 
 client.login(process.env.DISCORD_TOKEN);
